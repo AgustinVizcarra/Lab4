@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "412774754116",
+    "firebase_url": "https://labsito4-default-rtdb.firebaseio.com",
+    "project_id": "labsito4",
+    "storage_bucket": "labsito4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:412774754116:android:346c7e7db595d313d71911",
+        "android_client_info": {
+          "package_name": "com.example.lab4"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "412774754116-aatd5o10mdtk6g43np4nstf0j79dbufj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.lab4",
+            "certificate_hash": "9a59f76624f1a491be133087014c5d7427a190f9"
+          }
+        },
+        {
+          "client_id": "412774754116-i52q65qd0cpe5l5ped4q7g8qa9e9qtn3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBn5fS2_j-Ypivw8PQQEiNHGLsxb1_w7HE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "412774754116-i52q65qd0cpe5l5ped4q7g8qa9e9qtn3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

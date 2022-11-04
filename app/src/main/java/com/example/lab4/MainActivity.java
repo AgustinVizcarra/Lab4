@@ -12,6 +12,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         Button botonAdmin = findViewById(R.id.button_admin);
         botonAdmin.setOnClickListener(view -> {
             Intent intent = new Intent(MainActivity.this, Admin.class);
@@ -24,4 +25,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
+
 }
