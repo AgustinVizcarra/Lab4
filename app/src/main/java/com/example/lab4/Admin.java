@@ -7,15 +7,21 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class Admin extends AppCompatActivity {
+    //Inicializamos la instancia de base de datos ni bien arranque el activity
+    FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance("https://console.firebase.google.com/project/labsito4/database/labsito4-default-rtdb/data/~2F");
+    DatabaseReference databaseReference = firebaseDatabase.getReference("Jugadores");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin);
-
     }
     public void Registrar(View view){
+
         String equipo = ((EditText) findViewById(R.id.editEquipo)).getText().toString();
         String nombreJugador = ((EditText) findViewById(R.id.editNombre)).getText().toString();
         String apellidoJugador = ((EditText) findViewById(R.id.editApellido)).getText().toString();
@@ -29,14 +35,17 @@ public class Admin extends AppCompatActivity {
             //Se crea el objeto persona a enviar
             Jugador jugador = new Jugador(equipo,apellidoJugador,nombreJugador,hito);
             //Se envia el jugador a la base de dato en tiempo real
-
-            //Se limpian los campos
-            ((EditText) findViewById(R.id.editEquipo)).setText("");
-            ((EditText) findViewById(R.id.editNombre)).setText("");
-            ((EditText) findViewById(R.id.editApellido)).setText("");
-            ((EditText) findViewById(R.id.editHito)).setText("");
-            //Se imprime un mensaje de confirmacion especificando que se ha creado el usuario de manera exitosa
-            Toast.makeText(this, "El jugador se ha registrado exitosamente!!!!", Toast.LENGTH_SHORT).show();
+            databaseReference.setValue(jugador).addOnSuccessListener(aVoid->{
+                //Se limpian los campos
+                ((EditText) findViewById(R.id.editEquipo)).setText("");
+                ((EditText) findViewById(R.id.editNombre)).setText("");
+                ((EditText) findViewById(R.id.editApellido)).setText("");
+                ((EditText) findViewById(R.id.editHito)).setText("");
+                //Se imprime un mensaje de confirmacion especificando que se ha creado el usuario de manera exitosa
+                Toast.makeText(this, "El jugador se ha registrado exitosamente!!!!", Toast.LENGTH_SHORT).show();
+            }).addOnFailureListener(e->{
+                Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            });
         }else{
             //hay algun campo vacio
             if(fieldApellido&&fieldEquipo&&fieldHito&&fieldNombre){
