@@ -18,13 +18,16 @@
             android:exported="false" />
         <activity
             android:name=".HitosActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".UsuarioActivity" />
         <activity
             android:name=".AlineacionActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".UsuarioActivity" />
         <activity
             android:name=".UsuarioActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".Admin"
             android:exported="false" />
