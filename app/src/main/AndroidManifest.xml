@@ -17,6 +17,12 @@
             android:name=".LoginActivity"
             android:exported="false" />
         <activity
+            android:name=".HitosActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AlineacionActivity"
+            android:exported="false" />
+        <activity
             android:name=".UsuarioActivity"
             android:exported="false" />
         <activity
