@@ -22,6 +22,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -36,9 +37,6 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.HashMap;
 
 public class LoginActivity extends AppCompatActivity {
-    private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance("https://labsito4-default-rtdb.firebaseio.com/");
-    private DatabaseReference databaseReference = firebaseDatabase.getReference();
-    private FirebaseAuth mAuth;
     private GoogleSignInClient mGoogleSignInClient;
 
     int RC_SIGN_IN = 1;
@@ -47,7 +45,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        FirebaseApp.initializeApp(this);
         Button btnGoogle = findViewById(R.id.buttonGoogle);
 
         btnGoogle.setOnClickListener(new View.OnClickListener() {
@@ -64,7 +62,6 @@ public class LoginActivity extends AppCompatActivity {
                 .build();
 
         mGoogleSignInClient =GoogleSignIn.getClient(this,gso);
-        mAuth = FirebaseAuth.getInstance();
     }
 
     private void SignIn(){
@@ -100,6 +97,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void firebaseAuthWithGoogle(String idToken){
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken,null);
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
         mAuth.signInWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
