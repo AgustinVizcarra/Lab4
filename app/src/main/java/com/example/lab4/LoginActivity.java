@@ -34,12 +34,27 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.sql.SQLOutput;
 import java.util.HashMap;
 
 public class LoginActivity extends AppCompatActivity {
     private GoogleSignInClient mGoogleSignInClient;
+    private int RC_SIGN_IN = 123;
+    private FirebaseAuth mAuth;
 
-    int RC_SIGN_IN = 1;
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user != null){
+            System.out.println("user no nulo");
+            Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+            startActivity(intent);
+            finish();
+        }else{
+            System.out.println("user nulo");
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +71,12 @@ public class LoginActivity extends AppCompatActivity {
         });
 
 
+        createRequest();
+    }
+
+    private void createRequest(){
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(com.firebase.ui.auth.R.string.default_web_client_id))
+                .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
 
@@ -76,40 +95,35 @@ public class LoginActivity extends AppCompatActivity {
 
         if(requestCode == RC_SIGN_IN){
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            if(task.isSuccessful()){
-                try{
 
-                    GoogleSignInAccount account = task.getResult(ApiException.class);
-                    System.out.println("LOGEO CORRECTO GOOGLE");
-                    firebaseAuthWithGoogle(account.getIdToken());
+            try{
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+                firebaseAuthWithGoogle(account);
 
-                }catch(ApiException e){
-                    System.out.println("ERROR GOOGLE");
-                }
-
-            }else{
-                System.out.println("ERROR GOOGLE");
+            }catch(ApiException e){
+                System.out.println("An error has ocurred!");
             }
 
         }
 
     }
 
-    private void firebaseAuthWithGoogle(String idToken){
-        AuthCredential credential = GoogleAuthProvider.getCredential(idToken,null);
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    private void firebaseAuthWithGoogle(GoogleSignInAccount account){
+        AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(),null);
+        mAuth = FirebaseAuth.getInstance();
         mAuth.signInWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
-                    System.out.println("CORRECTO ");
+                    System.out.println("LOGUEO CORRECTO!");
 
-                    Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                    //FirebaseUser user = mAuth.getCurrentUser();
+                    Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                     startActivity(intent);
                     LoginActivity.this.finish();
                 }
                 else{
-                    System.out.println("INCORRECTO");
+                    System.out.println("LOGUEO INCORRECTO!");
                 }
             }
         });
