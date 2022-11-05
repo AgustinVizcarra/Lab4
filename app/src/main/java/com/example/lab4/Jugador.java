@@ -6,6 +6,8 @@ public class Jugador {
     private String nombreJugador;
     private String hitoJugador;
 
+    public Jugador() {}
+
     public Jugador(String nombreEquipo, String apellidoJugador, String nombreJugador, String hitoJugador) {
         this.nombreEquipo = nombreEquipo;
         this.apellidoJugador = apellidoJugador;
