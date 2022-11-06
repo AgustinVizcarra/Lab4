@@ -34,7 +34,7 @@ public class AlineacionActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Alineación");
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView_alineacion);
-        databaseReference = FirebaseDatabase.getInstance().getReference("Jugador");
+        databaseReference = FirebaseDatabase.getInstance().getReference("Jugadores");
         recyclerView.setLayoutManager(new LinearLayoutManager(AlineacionActivity.this));
 
         listaJugadores = new ArrayList<>();
@@ -49,7 +49,7 @@ public class AlineacionActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        databaseReference = FirebaseDatabase.getInstance().getReference("Jugador");
+        databaseReference = FirebaseDatabase.getInstance().getReference("Jugadores");
         databaseReference.removeEventListener(valueEventListener);
     }
 

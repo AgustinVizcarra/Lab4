@@ -35,7 +35,7 @@ public class HitosActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Hitos");
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView_hitos);
-        databaseReference = FirebaseDatabase.getInstance().getReference("Jugador");
+        databaseReference = FirebaseDatabase.getInstance().getReference("Jugadores");
         recyclerView.setLayoutManager(new LinearLayoutManager(HitosActivity.this));
 
         listaJugadores = new ArrayList<>();
@@ -51,7 +51,7 @@ public class HitosActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        databaseReference = FirebaseDatabase.getInstance().getReference("Jugador");
+        databaseReference = FirebaseDatabase.getInstance().getReference("Jugadores");
         databaseReference.removeEventListener(valueEventListener);
     }
 
