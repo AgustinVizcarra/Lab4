@@ -12,7 +12,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class Admin extends AppCompatActivity {
     //Inicializamos la instancia de base de datos ni bien arranque el activity
-    FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance("https://console.firebase.google.com/project/labsito4/database/labsito4-default-rtdb/data/~2F");
+    FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     DatabaseReference databaseReference = firebaseDatabase.getReference("Jugadores");
 
     @Override
