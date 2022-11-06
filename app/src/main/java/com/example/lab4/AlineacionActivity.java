@@ -24,6 +24,8 @@ public class AlineacionActivity extends AppCompatActivity {
     DatabaseReference databaseReference;
     ArrayList<Jugador> listaJugadores;
     ListaAlineacionAdapter adapter;
+    TextView nohitos;
+    ValueEventListener valueEventListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,31 +41,54 @@ public class AlineacionActivity extends AppCompatActivity {
         adapter = new ListaAlineacionAdapter(listaJugadores, AlineacionActivity.this);
         recyclerView.setAdapter(adapter);
 
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) { //Nodo referente existe
-                    listaJugadores.clear();
+        nohitos = findViewById(R.id.text_noregistroalineacion);
 
-                    for (DataSnapshot ds : snapshot.getChildren()) {
-                        Jugador jugador = ds.getValue(Jugador.class);
-                        listaJugadores.add(jugador);
-                    }
-
-                    TextView nohitos = findViewById(R.id.text_noregistroalineacion);
-                    if (listaJugadores.size() == 0) {
-                        nohitos.setVisibility(nohitos.VISIBLE);
-                    } else {
-                        nohitos.setVisibility(nohitos.INVISIBLE);
-                    }
-                    adapter.notifyDataSetChanged();
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.e("msg", "Error onCancelled", error.toException());
-            }
-        });
+        valueEventListener = databaseReference.addValueEventListener(new listener());
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        databaseReference = FirebaseDatabase.getInstance().getReference("Jugador");
+        databaseReference.removeEventListener(valueEventListener);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        valueEventListener = databaseReference.addValueEventListener(new listener());
+    }
+
+    class listener implements ValueEventListener {
+
+        @Override
+        public void onDataChange(@NonNull DataSnapshot snapshot) {
+            if (snapshot.exists()) { //Nodo referente existe
+                listaJugadores.clear();
+
+                for (DataSnapshot ds : snapshot.getChildren()) {
+                    Jugador jugador = ds.getValue(Jugador.class);
+                    listaJugadores.add(jugador);
+                }
+
+
+                if (listaJugadores.size() == 0) {
+                    nohitos.setVisibility(nohitos.VISIBLE);
+                } else {
+                    nohitos.setVisibility(nohitos.INVISIBLE);
+                }
+                adapter.notifyDataSetChanged();
+            } else {
+                nohitos.setVisibility(nohitos.VISIBLE);
+                listaJugadores.clear();
+                adapter.notifyDataSetChanged();
+            }
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError error) {
+            Log.e("msg", "Error onCancelled", error.toException());
+        }
+    }
+
 }
